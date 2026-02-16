@@ -34,22 +34,22 @@ This project is a portfolio piece demonstrating full-stack Gomoku AI development
 ### Minimax (`front/content/docs/minimax/`) — 4 files
 
 - [x] `00.intro.md` — Introduction: Motivation and Board Representation (`pi-bolt`)
-- [ ] `01.search-algorithms.md` — Search: From Alpha-Beta to PVS (`pi-search`)
-- [ ] `02.evaluation.md` — Evaluation: Pattern Lookup Tables (`pi-chart-bar`)
-- [ ] `03.rules-and-serving.md` — Game Rules, Captures, and Serving (`pi-shield`)
+- [x] `01.search-algorithms.md` — Search: From Alpha-Beta to PVS (`pi-search`)
+- [x] `02.evaluation.md` — Evaluation: Pattern Lookup Tables (`pi-chart-bar`)
+- [x] `03.rules-and-serving.md` — Game Rules, Captures, and Serving (`pi-shield`)
 
 **Why 4 files, not 6**: Minimax is a solid implementation but it's standard game AI (alpha-beta, TT, killer moves). The differentiation in this project is the AlphaZero system, Ray pipeline, and deployment. Minimax should be tight, sharp, and respect the reader's time. Board representation merges into intro (bitboard IS the motivation story). Rules and serving merge (both are concise, and rules feed directly into the serving layer).
 
 ### AlphaZero (`front/content/docs/alphazero/`) — 8 files
 
-- [ ] `00.intro.md` — Introduction and Background (`pi-bolt`)
-- [ ] `01.neural-network.md` — The Policy-Value Network (`pi-microchip`)
-- [ ] `02.mcts.md` — Monte Carlo Tree Search with PUCT (`pi-sitemap`)
-- [ ] `03.search-engine-architecture.md` — Search Engine Architecture: From Sequential to Distributed (`pi-cog`)
-- [ ] `04.training-pipeline.md` — Training Pipeline and GCP Infrastructure (`pi-sync`)
-- [ ] `05.evaluation.md` — Model Evaluation: Arena and SPRT (`pi-chart-line`)
-- [ ] `06.cpp-extensions.md` — C++ Extensions: pybind11 for Performance (`pi-bolt`)
-- [ ] `07.deployment.md` — Production Deployment and Lessons Learned (`pi-cloud`)
+- [x] `00.intro.md` — Introduction and Background (`pi-bolt`)
+- [x] `01.neural-network.md` — The Policy-Value Network (`pi-microchip`)
+- [x] `02.mcts.md` — Monte Carlo Tree Search with PUCT (`pi-sitemap`)
+- [x] `03.search-engine-architecture.md` — Search Engine Architecture: From Sequential to Distributed (`pi-cog`)
+- [x] `04.training-pipeline.md` — Training Pipeline and GCP Infrastructure (`pi-sync`)
+- [x] `05.evaluation.md` — Model Evaluation: Arena and SPRT (`pi-chart-line`)
+- [x] `06.cpp-extensions.md` — C++ Extensions: pybind11 for Performance (`pi-bolt`)
+- [x] `07.deployment.md` — Production Deployment and Lessons Learned (`pi-cloud`)
 
 **Why 8, not 9**: Search engines (was 03) and Ray async pipeline (was 04) merge into a single "Search Engine Architecture" page. The overview of 4 modes is too thin to stand alone, and the Ray async deep dive needs the context of the other modes to make sense. One page: brief overview of all modes → deep dive into the async pipeline as the most architecturally interesting one.
 
