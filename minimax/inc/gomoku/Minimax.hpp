@@ -50,7 +50,8 @@ struct SearchResult {
 
 typedef int (*EvalFn)(Board*, int, int, int);
 
-static boost::unordered_map<uint64_t, TTEntry> transTable;
+// Shared transposition table storage used by search and request handlers.
+extern boost::unordered_map<uint64_t, TTEntry> transTable;
 
 namespace Minimax {
 

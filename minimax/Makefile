@@ -24,6 +24,11 @@ TEST_TARGET    := doublethree_test
 # Exclude main.o and anything in ws/ directory from test linkage
 TEST_OBJS      := $(filter-out $(BUILD_DIR)/main.o $(BUILD_DIR)/ws/%, $(OBJS))
 
+# Benchmark Config
+BENCH_SRC      := bench/search_benchmark.cpp
+BENCH_TARGET   := search_benchmark
+BENCH_OBJS     := $(filter-out $(BUILD_DIR)/main.o $(BUILD_DIR)/ws/%, $(OBJS))
+
 # Standard Build Rules
 
 all: $(TARGET)
@@ -43,6 +48,11 @@ doublethree: $(TEST_TARGET)
 $(TEST_TARGET): $(TEST_OBJS) $(TEST_SRC)
 	$(CXX) $(CXXFLAGS) $(TEST_SRC) $(TEST_OBJS) -o $@
 
+benchmark: $(BENCH_TARGET)
+
+$(BENCH_TARGET): $(BENCH_OBJS) $(BENCH_SRC)
+	$(CXX) $(CXXFLAGS) $(BENCH_SRC) $(BENCH_OBJS) -o $@
+
 # Compile rule (re-used for both builds)
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
@@ -56,10 +66,10 @@ clean:
 	rm -rf $(BUILD_DIR) $(DEBUG_DIR)
 
 fclean: clean
-	rm -f $(TARGET) $(DEBUG_TARGET) $(TEST_TARGET)
+	rm -f $(TARGET) $(DEBUG_TARGET) $(TEST_TARGET) $(BENCH_TARGET)
 
 re: fclean all
 
 re_debug: fclean debug
 
-.PHONY: all debug clean re re_debug doublethree
+.PHONY: all debug clean re re_debug doublethree benchmark

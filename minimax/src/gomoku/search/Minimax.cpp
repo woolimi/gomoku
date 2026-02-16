@@ -7,6 +7,8 @@
 
 #include "Evaluation.hpp"
 
+boost::unordered_map<uint64_t, TTEntry> transTable;
+
 namespace Minimax {
 
 // ---- Constants & shared state -------------------------------------------------
