@@ -1,5 +1,5 @@
 <template>
-  <div class="relative my-2 rounded-lg bg-slate-800 px-4 py-1 text-gray-100">
+  <div class="relative my-6 rounded-lg bg-slate-800 px-4 py-1 text-gray-100">
     <pre :class="$props.class">
       <slot />
     </pre>

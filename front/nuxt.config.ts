@@ -112,6 +112,7 @@ export default defineNuxtConfig({
             "css",
             "json",
             "ts",
+            "cpp",
             "python",
             "solidity",
           ],

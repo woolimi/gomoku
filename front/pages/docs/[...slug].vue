@@ -47,7 +47,9 @@ definePageMeta({
     />
 
     <div class="max-w-[800px] min-h-[calc(100vh-60px-92px)] flex-1">
-      <ContentRenderer v-if="pageData" :value="pageData" class="p-6" />
+      <div v-if="pageData" class="p-6 docs-content">
+        <ContentRenderer :value="pageData" />
+      </div>
       <DocNotFound v-else />
 
       <DocNavButtons
