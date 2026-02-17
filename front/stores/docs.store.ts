@@ -2,6 +2,7 @@ import type { DocLink, DocFolder, DocItem } from "~/types/docs";
 
 // 아코디언으로 표시할 그룹 목록 (데스크톱/모바일 공유)
 export const ACCORDION_GROUPS = new Set(["alphazero", "minimax"]);
+const GROUP_PRIORITY = ["minimax", "alphazero"];
 
 export const useDocsStore = defineStore("docs", () => {
   const docLinks = ref<DocLink[]>([]);
@@ -106,9 +107,16 @@ export const useDocsStore = defineStore("docs", () => {
     const result: DocLink[] = [];
     
     // 그룹별로 처리
-    const groups = Array.from(groupMap.entries()).sort(([a], [b]) =>
-      a.localeCompare(b),
-    );
+    const groups = Array.from(groupMap.entries()).sort(([a], [b]) => {
+      const priorityA = GROUP_PRIORITY.indexOf(a.toLowerCase());
+      const priorityB = GROUP_PRIORITY.indexOf(b.toLowerCase());
+
+      // 우선순위 목록에 둘 다 포함된 경우에만 사용자 지정 순서 적용
+      if (priorityA !== -1 && priorityB !== -1 && priorityA !== priorityB) {
+        return priorityA - priorityB;
+      }
+      return a.localeCompare(b);
+    });
     
     for (const [groupName, items] of groups) {
       const normalizedGroupName = groupName.toLowerCase();
