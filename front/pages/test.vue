@@ -226,6 +226,13 @@ watch(data, (rawData) => {
         />
         Evaluation test cases
       </h1>
+      <p
+        class="mt-4 rounded-md border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800"
+      >
+        <span class="font-semibold italic">Note:</span>
+        Evaluation test cases always run in minimax mode, even if AlphaZero
+        mode is selected.
+      </p>
 
       <div class="card">
         <Accordion v-model="activeIndex">
