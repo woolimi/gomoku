@@ -248,3 +248,16 @@ response_error.json (backend 착수 에러)
 - [x] sungyongcho.com/gomoku 로 프론트엔드 페이지 리다이렉트 기능 (구현 아직 X)
   - 프론트엔드 배포가 어디서 되어있는지 확인 필요
 - [x] 부탁드림: 프론트 페이지에  랜딩을 하기 전에 sungyongcho.com/minimax, sungyongcho.com/alphazero 의 연결 상태를 확인 하고, 응답이 없을 경우 팝업 모달을 띄워서 (maintanance 중) 이라는 메세지를 띄울 수 있을지?
+
+
+# 2026.02.18
+
+- 'URL and JSON import/export.' 기능에 대한 설명이 부족하거나, 설명에서 제외 하는건 어떨지?
+
+- right click 으로 eval 하는 기능은 minimax를 통해서만 적용 되는것 같은데 이를 minimax 모드로 수치만 확인하도록 하는 방식이 가능할지, 아니면 오른쪽 클릭은 minimax를 사용 할 때만 동작 하도록 하는게 맞을지
+
+- under maintenance관련
+  - under maintenance가 떠도 Help (documentation) 메뉴로는 접근 할 수 있도록 처리가 가능한지?
+  - retry 버튼을 만드는게 나을지? / 아니면 잘 보이는곳에 backend server status를 표시 하는게 가능할지? (초록, 빨간 글씨로)
+
+- player vs ai 로 진입 할때 minmax / alphazero 모드를 선택 하는게 가능할지 (선택 하는곳이 어디인지 모르겠다는 피드백을 받음), 아니면 눈에 더 잘 띄이게 하는 방법?

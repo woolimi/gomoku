@@ -9,7 +9,7 @@
       class="object-cover"
       v-bind="$attrs"
     />
-    <figcaption class="text-center text-sm text-gray-800">
+    <figcaption v-if="hasCaption" class="text-center text-sm text-gray-800">
       - {{ props.alt }} -
     </figcaption>
   </figure>
@@ -55,4 +55,6 @@ const refinedSrc = computed(() => {
   }
   return props.src;
 });
+
+const hasCaption = computed(() => props.alt.trim().length > 0);
 </script>
