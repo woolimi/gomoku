@@ -261,3 +261,5 @@ response_error.json (backend 착수 에러)
   - retry 버튼을 만드는게 나을지? / 아니면 잘 보이는곳에 backend server status를 표시 하는게 가능할지? (초록, 빨간 글씨로)
 
 - player vs ai 로 진입 할때 minmax / alphazero 모드를 선택 하는게 가능할지 (선택 하는곳이 어디인지 모르겠다는 피드백을 받음), 아니면 눈에 더 잘 띄이게 하는 방법?
+
+- diagram이 있는 이미지를 클릭하면 우선 새 창이 뜨도록 처리 해 놨는데, 반투명 레이어를 하나 띄워서 이미지를 중앙에 배치하는 형식이 가능할지? (/front/content/docs/alphazero /01.neural-network.md 74번줄 참조)
