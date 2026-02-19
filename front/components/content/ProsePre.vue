@@ -1,16 +1,27 @@
 <template>
-  <div class="relative my-6 rounded-lg bg-slate-800 px-4 py-1 text-gray-100">
-    <pre :class="$props.class">
+  <div class="relative my-6 rounded-lg bg-slate-800 px-4 py-1 text-gray-100" ref="wrapperRef">
+    <a
+      v-if="githubSourceUrl"
+      :href="githubSourceUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="absolute right-4 top-3 z-10 rounded-md border border-slate-500/70 bg-slate-700/80 px-2.5 py-1 text-xs font-medium text-slate-100 no-underline transition hover:bg-slate-600/85 hover:text-white"
+    >
+      Open on GitHub
+    </a>
+    <pre :class="[props.class, githubSourceUrl ? 'mt-7' : '']">
       <slot />
     </pre>
     <span class="absolute bottom-[16px] right-[16px] text-sm !text-gray-100">
-      {{ language || filename }}
+      {{ props.language || props.filename }}
     </span>
   </div>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { onMounted, ref } from "vue";
+
+const props = defineProps({
   code: {
     type: String,
     default: "",
@@ -35,6 +46,45 @@ defineProps({
     type: String,
     default: null,
   },
+});
+
+const wrapperRef = ref<HTMLElement | null>(null);
+const githubSourceUrl = ref<string | null>(null);
+
+const getSourceInfo = (wrapper: HTMLElement): { href: string; paragraph: HTMLElement } | null => {
+  const previous = wrapper.previousElementSibling;
+  if (!(previous instanceof HTMLElement) || previous.tagName.toLowerCase() !== "p") {
+    return null;
+  }
+
+  const text = previous.textContent?.trim().toLowerCase() || "";
+  if (!text.startsWith("source:")) {
+    return null;
+  }
+
+  const anchor = previous.querySelector<HTMLAnchorElement>("a[href*='github.com']");
+  const href = anchor?.getAttribute("href")?.trim();
+  if (!href) {
+    return null;
+  }
+
+  return { href, paragraph: previous };
+};
+
+onMounted(() => {
+  const wrapper = wrapperRef.value;
+  if (!wrapper) {
+    return;
+  }
+
+  const sourceInfo = getSourceInfo(wrapper);
+  if (!sourceInfo) {
+    return;
+  }
+
+  githubSourceUrl.value = sourceInfo.href;
+  sourceInfo.paragraph.style.display = "none";
+  sourceInfo.paragraph.setAttribute("aria-hidden", "true");
 });
 </script>
 
