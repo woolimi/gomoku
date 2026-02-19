@@ -158,7 +158,7 @@
   dirichletGroup.setAttribute("opacity", "0");
   drawRect(dirichletGroup, 580, 20, 185, 48, "6", "#f8fafc", "#64748b", "1.5");
   drawText(dirichletGroup, 672, 40, "Dirichlet noise at root", "10", "600", "#334155");
-  drawText(dirichletGroup, 672, 54, "Dir(α=0.03) during self-play", "9.5", "400", "#64748b");
+  drawText(dirichletGroup, 672, 54, "Dir(α) during self-play", "9.5", "400", "#64748b");
   layerOver.appendChild(dirichletGroup);
 
   /* ── UCB formula note ── */
