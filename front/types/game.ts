@@ -40,7 +40,7 @@ export type RequestType = "move" | "evaluate" | "test";
 export type ResponseType = "move" | "evaluate" | "error";
 export type SocketMoveRequest = {
   type: RequestType;
-  difficulty: "easy" | "hard"; // default hard
+  difficulty: "easy" | "medium" | "hard"; // default hard
   nextPlayer: Stone;
   goal: number;
   lastPlay?: {
