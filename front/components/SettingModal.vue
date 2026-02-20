@@ -63,6 +63,7 @@ watch(isAlphaZero, (v) => {
             class="mt-4 rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900"
           >
             <p class="mb-2 font-medium">AlphaZero mode: 200 MCTS simulations per move. During training, this was increased to 2,400.</p>
+            <p class="mb-2 font-medium">Also, evaluation is not supported in AlphaZero mode.</p>
             <NuxtLink
               :to="docsAlphaZeroUrl"
               class="font-medium underline hover:no-underline"

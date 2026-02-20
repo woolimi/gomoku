@@ -266,5 +266,9 @@ response_error.json (backend 착수 에러)
 
 # 2026.02.20
 
- - right click 으로 eval 하는 기능은 alphazero에서도 작동하도록 구현을 하여 테스트 해 보았으나, 매우 정확하지 않음
- - alphazero-no-eval 브랜치에서 삭제
+ - right click 으로 eval 하는 기능은 alphazero에서도 작동하도록 구현을 하여 테스트 해 보았으나, 매우 정확하지 않음 (얕은 num)
+ - alphazero eval은 neural network value head 한번만 사용 (forward pass 1회) vs AI 착수는 MCTS 1000+ simulations → 깊이 차이로 인해 eval 결과가 실제 AI 응수와 맞지 않음
+ - 유저가 eval 따라 착수해도 AI가 새 board state에서 최적 응수를 찾기 때문에 eval이 제시한 이점이 무효화됨
+ - alphazero-no-eval 브랜치에서 삭제 → documentation 브랜치로 병합, alphazero-no-eval 브랜치 삭제
+ - eval 기능은 minimax mode에서만 작동하도록 변경 (Cell.vue, game.vue, debug.vue에 guard 추가)
+ - 관련 documentation 업데이트 완료 (04.features.md, 03.game-settings.md, 03.websocket-json-protocol.md)
