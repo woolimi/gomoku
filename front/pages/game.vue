@@ -172,6 +172,11 @@ const onSendStone = () => {
   );
 };
 const onEvaluateStone = (coordinate: undefined | { x: number; y: number }) => {
+  if (settings.value.ai !== "minimax") {
+    evalScores.value = [];
+    data.value = null;
+    return;
+  }
   if (coordinate) {
     onSendData("evaluate", coordinate);
   } else {
@@ -202,6 +207,11 @@ watch(data, (rawData) => {
       typeof rawData === "string" ? JSON.parse(rawData) : rawData;
 
     if (res.type === "evaluate") {
+      if (settings.value.ai !== "minimax") {
+        evalScores.value = [];
+        purgeState();
+        return;
+      }
       evalScores.value = res.evalScores ?? [];
       purgeState();
       return;
@@ -244,7 +254,7 @@ onUnmounted(() => {
     class="relative h-screen w-full items-start justify-center lg:items-center"
   >
     <!-- Eval Stone -->
-    <EvalTooltip />
+    <EvalTooltip v-if="settings.ai === 'minimax'" />
 
     <!-- Board & History -->
     <div

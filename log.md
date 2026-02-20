@@ -267,3 +267,4 @@ response_error.json (backend 착수 에러)
 # 2026.02.20
 
  - right click 으로 eval 하는 기능은 alphazero에서도 작동하도록 구현을 하여 테스트 해 보았으나, 매우 정확하지 않음
+ - alphazero-no-eval 브랜치에서 삭제

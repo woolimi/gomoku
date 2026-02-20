@@ -21,14 +21,16 @@ const onClickCell = () => {
   emit("put", { x: props.x, y: props.y });
 };
 const onEvaluate = () => {
+  if (settings.value.ai !== "minimax") return;
   // get evaluation
   emit("evaluate", { x: props.x, y: props.y });
 };
 const onMouseLeave = () => {
+  if (settings.value.ai !== "minimax") return;
   // clear previous evaluation
   emit("evaluate", undefined);
 };
-const { turn, gameOver, histories, isAiThinking, _histories } =
+const { turn, gameOver, histories, isAiThinking, _histories, settings } =
   storeToRefs(useGameStore());
 const lastHistory = computed(() => _histories.value.at(-1));
 </script>
