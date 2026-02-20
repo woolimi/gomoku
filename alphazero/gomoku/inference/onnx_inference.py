@@ -25,6 +25,9 @@ def _export_to_onnx(
         output_path,
         export_params=True,
         opset_version=17,
+        # Torch 2.9 dynamo exporter produces ONNX shape metadata that currently
+        # breaks ORT dynamic quantization (ShapeInferenceError: 722 vs 361).
+        dynamo=False,
         do_constant_folding=True,
         input_names=["input"],
         output_names=["policy", "value"],

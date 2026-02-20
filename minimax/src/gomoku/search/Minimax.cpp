@@ -81,7 +81,7 @@ inline bool shouldIncludeMove(Board *board, int col, int row, int player,
   if (!enableDoubleThreeRestriction) return true;
   if (!Rules::detectDoublethree(*board, col, row, player)) return true;
 
-  return Rules::detectCaptureStonesNotStore(*board, col, row, player);
+  return false;
 }
 
 inline bool isCaptureMove(Board *board, int col, int row, int player) {

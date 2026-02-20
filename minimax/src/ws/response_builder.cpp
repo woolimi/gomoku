@@ -69,13 +69,13 @@ void responseSuccessEvaluate(struct lws* wsi, int evalScoreX, int evalScoreY) {
 
   rapidjson::Value scoreO(rapidjson::kObjectType);
   scoreO.AddMember("player", "O", allocator);
-  scoreO.AddMember("evalScore", evalScoreY, allocator);
+  scoreO.AddMember("evalScores", evalScoreY, allocator);
   scoreO.AddMember("percentage", Evaluation::getEvaluationPercentage(evalScoreY), allocator);
   evalScores.PushBack(scoreO, allocator);
 
   rapidjson::Value scoreX(rapidjson::kObjectType);
   scoreX.AddMember("player", "X", allocator);
-  scoreX.AddMember("evalScore", evalScoreX, allocator);
+  scoreX.AddMember("evalScores", evalScoreX, allocator);
   scoreX.AddMember("percentage", Evaluation::getEvaluationPercentage(evalScoreX), allocator);
   evalScores.PushBack(scoreX, allocator);
 

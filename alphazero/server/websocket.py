@@ -150,6 +150,16 @@ async def _handle_evaluate(
     data: dict[str, Any],
 ) -> bool:
     state = frontend_to_gamestate(data)
+
+    # Apply the candidate move so the value head evaluates the post-move position
+    # (matching minimax semantics: "how good is playing at this coordinate?").
+    last_play = data.get("lastPlay", {})
+    coord = last_play.get("coordinate", {})
+    eval_x = int(coord.get("x", -1))
+    eval_y = int(coord.get("y", -1))
+    player = int(state.next_player)
+    state = engine.game.get_next_state(state, (eval_x, eval_y), player)
+
     encoded = engine.game.get_encoded_state(state)
     model_input = torch.from_numpy(encoded).to(
         device=engine.device, dtype=torch.float32
@@ -158,17 +168,19 @@ async def _handle_evaluate(
     with torch.inference_mode():
         _, value_tensor = engine.inference_client.infer(model_input)
 
-    value = float(value_tensor.squeeze().item())
-    current_player_pct = _clamp_percentage((value + 1.0) * 50.0)
+    # Value is from the perspective of state.next_player (the opponent after the move).
+    # Negate to get the perspective of the player who placed the stone.
+    value = -float(value_tensor.squeeze().item())
+    move_player_pct = _clamp_percentage((value + 1.0) * 50.0)
 
-    if int(state.next_player) == PLAYER_1:
-        x_pct = current_player_pct
-        o_pct = 100.0 - current_player_pct
+    if player == PLAYER_1:
+        x_pct = move_player_pct
+        o_pct = 100.0 - move_player_pct
         x_eval = value
         o_eval = -value
     else:
-        o_pct = current_player_pct
-        x_pct = 100.0 - current_player_pct
+        o_pct = move_player_pct
+        x_pct = 100.0 - move_player_pct
         o_eval = value
         x_eval = -value
 

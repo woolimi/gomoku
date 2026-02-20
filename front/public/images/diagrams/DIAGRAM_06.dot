@@ -90,7 +90,7 @@ digraph MinimaxPipeline {
         diff_dispatch -> hard;
 
         search_opts [shape=note, style="dashed,filled", color="#6d28d9", fillcolor="#f5f3ff",
-            label="Search optimizations\n+ Transposition Table (TT)\n+ Killer Moves (MAX_DEPTH+1 x 2)\n+ Quiescence Search"];
+            label="Search optimizations\n+ Transposition Table (TT)\n+ Killer Moves (MAX_DEPTH+1 x 2)\n+ Quiescence Search (easy/medium only)"];
         diff_dispatch -> search_opts [arrowhead=none, style=dotted, color="#6d28d9", constraint=false];
 
         // Evaluation sub-component (called at leaf nodes)

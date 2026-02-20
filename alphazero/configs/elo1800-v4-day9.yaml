@@ -1,0 +1,118 @@
+# ============================================================
+# V4 Day 9 - Phase 1.5 Continued: Deep Search + Opening Diversity
+# Target: value head의 opening 차이 학습 지속, 탐색 깊이 점진 증가
+# Iterations: 217-252 (~48-50 hours)
+#
+# day8 (208-217) 이후 연속. 동일한 Phase 1.5 전략 유지.
+# 탐색 깊이 점진 증가로 value estimate 정확도 향상.
+#
+# Schedule:
+#   217-240: 1600 searches (~1.1h/iter, 23 iters ≈ 25h)
+#   240-252: 2400 searches (~2.0h/iter, 12 iters ≈ 24h)
+#   Total: 35 iters ≈ 49h
+#
+# Opening diversity 메커니즘 유지:
+#   spiky Dir(0.03) + epsilon 0.38 → center에 noise spike 시 탐색 유도
+#   exploration_turns=30 + temp 1.20 → opening 다양성 보장
+#   random_opening_turns=4 → backup diversity
+# ============================================================
+
+board:
+  num_lines: 19
+  enable_doublethree: true
+  enable_capture: true
+  capture_goal: 5
+  gomoku_goal: 5
+  history_length: 5
+
+model:
+  num_hidden: 128
+  num_resblocks: 12
+
+mcts:
+  C: 2.5
+  num_searches:
+    - { until: 240, value: 1600 }
+    - { until: 252, value: 2400 }
+  exploration_turns: 30
+  dirichlet_epsilon: 0.38
+  dirichlet_alpha: 0.03
+  batch_infer_size: 64
+  min_batch_size: 8
+  max_batch_wait_ms: 5
+  use_native: true
+  resign_enabled: false
+  resign_threshold: 0.95
+  min_moves_before_resign: 20
+
+training:
+  num_iterations: 252
+  num_selfplay_iterations: 1200
+  num_epochs: 2
+  batch_size: 512
+  learning_rate:
+    - { until: 235, value: 0.001 }
+    - { until: 252, value: 0.0008 }
+  weight_decay: 0.0001
+  temperature: 1.20
+  replay_buffer_size: 250000
+  min_samples_to_train: 10000
+  priority_replay:
+    enabled: false
+    start_iteration: 15
+    alpha: 0.6
+    beta: 0.4
+    epsilon: 0.001
+  dataloader_num_workers: 4
+  enable_tf32: true
+  use_channels_last: true
+  random_play_ratio: 0.0
+  random_opening_turns: 4
+  opponent_rates:
+    random_bot_ratio: 0.0
+    prev_bot_ratio: 0.25
+
+evaluation:
+  num_eval_games: 40
+  eval_every_iters: 2
+  promotion_win_rate: 0.55
+  eval_num_searches: 1000
+  elo_k_factor: 2.0
+  initial_blunder_rate: 0.0
+  initial_baseline_win_rate: 0.0
+  blunder_increase_limit: 1.0
+  baseline_wr_min: 0.0
+  num_baseline_games: 16
+  blunder_threshold: 0.5
+  random_play_ratio: 0.0
+  eval_opening_turns: 6
+  eval_temperature: 1.0
+  eval_dirichlet_epsilon: 0.2
+  baseline_num_searches: 600
+  use_sprt: false
+
+runtime:
+  selfplay:
+    actor_num_cpus: 1.0
+    inflight_per_actor: 192
+    games_per_actor: 80
+    max_chunk_size: 1
+  inference:
+    actor_num_gpus: 0.08
+    num_actors: 12
+    actor_num_cpus: 1.0
+    use_local_inference: false
+  evaluation:
+    num_workers: 40
+
+paths:
+  use_gcs: true
+  run_prefix: "gmk-testing-refactoring"
+  run_id: elo1800-gcp-v4
+
+parallel:
+  ray_local_num_workers: -1
+
+io:
+  max_samples_per_shard: null
+  local_replay_cache: /tmp/gmk_replay_cache

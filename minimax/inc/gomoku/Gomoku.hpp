@@ -54,7 +54,7 @@ inline unsigned int pack_cells_1(unsigned int a) { return a; }
 typedef uint64_t ZobristKey;
 namespace Zobrist {
 extern ZobristKey piece_keys[BOARD_SIZE][BOARD_SIZE][3];  //
-extern ZobristKey capture_keys[3][5 + 1];
+extern ZobristKey capture_keys[3][7 + 1];  // [player 0-2][score 0-7]: 7 = max UI capture goal, +1 for zero-indexed
 extern ZobristKey turn_key;
 extern bool initialized;
 }  // namespace Zobrist

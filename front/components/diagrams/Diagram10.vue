@@ -47,6 +47,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 const diagramRoot = ref(null);
 let cleanupKeydown = null;
+let cleanupAutoplay = null;
 
 onMounted(() => {
   if (!diagramRoot.value) return;
@@ -560,6 +561,7 @@ onMounted(() => {
       btnAuto.textContent = "▶ Auto Play";
       btnAuto.classList.remove("playing");
     }
+    cleanupAutoplay = stopAuto;
 
     btnAuto.addEventListener("click", () => {
       if (autoTimer) { stopAuto(); return; }
@@ -583,6 +585,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (cleanupAutoplay) cleanupAutoplay();
   if (cleanupKeydown) cleanupKeydown();
 });
 </script>

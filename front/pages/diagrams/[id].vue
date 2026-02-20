@@ -17,7 +17,7 @@ import Diagram09 from '~/components/diagrams/Diagram09.vue';
 import Diagram10 from '~/components/diagrams/Diagram10.vue';
 
 const route = useRoute();
-const diagramId = route.params.id;
+const diagramId = computed(() => String(route.params.id ?? ''));
 
 const componentMap = {
   'diagram_03': Diagram03,
@@ -26,19 +26,19 @@ const componentMap = {
   'diagram_10': Diagram10,
 };
 
-const activeComponent = computed(() => componentMap[diagramId]);
+const activeComponent = computed(() => componentMap[diagramId.value]);
 
 // Setup minimal metadata for standalone view
 definePageMeta({
   layout: false
 });
 
-useHead({
-  title: `Diagram ${diagramId}`,
+useHead(() => ({
+  title: `Diagram ${diagramId.value}`,
   bodyAttrs: {
     class: 'overflow-hidden m-0 p-0 bg-[#f8fafc]'
   }
-});
+}));
 </script>
 
 <style scoped>

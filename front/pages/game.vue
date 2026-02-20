@@ -120,10 +120,14 @@ const onSendData = (
   coordinate?: { x: number; y: number },
 ) => {
   isAiThinking.value = true;
+  const difficultyPayload =
+    settings.value.ai === "minimax"
+      ? { difficulty: settings.value.difficulty }
+      : {};
   send(
     JSON.stringify({
       type,
-      difficulty: settings.value.difficulty,
+      ...difficultyPayload,
       nextPlayer: lastHistory.value?.stone === "X" ? "O" : "X",
       goal: settings.value.totalPairCaptured,
       enableCapture: settings.value.enableCapture,
@@ -198,7 +202,7 @@ watch(data, (rawData) => {
       typeof rawData === "string" ? JSON.parse(rawData) : rawData;
 
     if (res.type === "evaluate") {
-      evalScores.value = res.evalScores;
+      evalScores.value = res.evalScores ?? [];
       purgeState();
       return;
     }

@@ -2,6 +2,7 @@
 /minimax/minimax
 /minimax/minimax_debug
 /minimax/server
+/minimax/search_benchmark
 /minimax/build/
 /minimax/build_debug/
 /minimax/doublethree_test

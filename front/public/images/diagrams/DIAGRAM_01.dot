@@ -154,7 +154,7 @@ digraph AlphaZeroLoop {
         margin = 14;
 
         srv_api [label = "FastAPI + WebSocket", color = "#9ca3af", fillcolor = "#ffffff"];
-        srv_mcts [label = "20 MCTS sims\nNative C++ engine", color = "#9ca3af", fillcolor = "#ffffff"];
+        srv_mcts [label = "200 MCTS sims\nNative C++ engine", color = "#9ca3af", fillcolor = "#ffffff"];
         srv_state [label = "Stateless per request", color = "#9ca3af", fillcolor = "#ffffff"];
 
         srv_api -> srv_mcts [color = "#9ca3af"];
@@ -167,7 +167,7 @@ digraph AlphaZeroLoop {
         fillcolor = "#ffffff"
         color = "#94a3b8"
         fontcolor = "#334155"
-        label = "~215 iterations across 4 runs\n(v4-day3 .. v4-day8 + recover)"
+        label = "~265 iterations across 4 runs\n(v1-v3 + v4-day0.5 .. v4-day9)"
     ];
 
     // Main pipeline

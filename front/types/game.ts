@@ -40,7 +40,7 @@ export type RequestType = "move" | "evaluate" | "test";
 export type ResponseType = "move" | "evaluate" | "error";
 export type SocketMoveRequest = {
   type: RequestType;
-  difficulty: "easy" | "medium" | "hard"; // default hard
+  difficulty?: "easy" | "medium" | "hard"; // minimax only
   nextPlayer: Stone;
   goal: number;
   lastPlay?: {
@@ -68,9 +68,9 @@ export type SocketMoveResponse = {
   };
   board: Stone[][];
   capturedStones: { x: number; y: number; stone: Stone }[];
-  scores: { player: Stone; score: number }[];
+  scores?: { player: Stone; score: number }[];
   executionTime?: { s: number; ms: number; ns: number };
-  evalScores: [StoneEval, StoneEval];
+  evalScores?: [StoneEval, StoneEval];
   error?: string;
 };
 

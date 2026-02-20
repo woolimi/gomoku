@@ -1,7 +1,7 @@
 #include "Gomoku.hpp"
 namespace Zobrist {
 ZobristKey piece_keys[BOARD_SIZE][BOARD_SIZE][3];
-ZobristKey capture_keys[3][5 + 1];
+ZobristKey capture_keys[3][7 + 1];  // [player 0-2][score 0-7]: 7 = max UI capture goal, +1 for zero-indexed
 ZobristKey turn_key;
 // Global/static variables are zero-initialized by default if not specified
 bool initialized = false;
@@ -43,7 +43,7 @@ void initZobrist() {
   }
 
   for (int p = 1; p <= 2; p++) {
-    for (int points = 0; points <= 5; ++points) {
+    for (int points = 0; points <= 7; ++points) {
       Zobrist::capture_keys[p][points] = generate_random_64bit_boost();
     }
   }
