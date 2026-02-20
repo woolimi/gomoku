@@ -211,13 +211,13 @@ int quiescenceSearch(Board *board, int alpha, int beta, bool isMaximizing, int x
   if (isMaximizing) {
     if (stand_pat_score >= beta) {
       board->flushCaptures();
-      return beta;  // Fail-hard beta cutoff
+      return stand_pat_score;  // Fail-soft beta cutoff
     }
     alpha = std::max(alpha, stand_pat_score);
   } else {  // Minimizing
     if (stand_pat_score <= alpha) {
       board->flushCaptures();
-      return alpha;  // Fail-hard alpha cutoff
+      return stand_pat_score;  // Fail-soft alpha cutoff
     }
     beta = std::min(beta, stand_pat_score);
   }
@@ -622,8 +622,8 @@ int pvs(Board *board, int depth, int alpha, int beta, int currentPlayer, int las
       score = pvs(board, depth - 1, alpha, beta, next, mv.first, mv.second, !isMaximizing, evalFn);
       firstChild = false;
     } else {
-      // null window
-      score = pvs(board, depth - 1, alpha + 1, alpha + 1, next, mv.first, mv.second, !isMaximizing,
+      // null window (width-1: beta = alpha + 1)
+      score = pvs(board, depth - 1, alpha, alpha + 1, next, mv.first, mv.second, !isMaximizing,
                   evalFn);
       // if it produced something interesting, re-search
       if (score > alpha && score < beta) {
