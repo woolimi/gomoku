@@ -137,4 +137,10 @@ export default defineNuxtConfig({
       LOCAL_FRONT_NUXT_CONTENT_WS: LOCAL_FRONT_NUXT_CONTENT_WS,
     },
   },
+  routeRules: {
+    // docs: SSR (on-demand), do not prerender
+    "/docs/**": { prerender: false },
+    // everything else: SSG (prerender at build)
+    "/**": { prerender: true },
+  },
 });
