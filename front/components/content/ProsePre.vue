@@ -5,8 +5,9 @@
       :href="githubSourceUrl"
       target="_blank"
       rel="noopener noreferrer"
-      class="absolute right-4 top-3 z-10 rounded-md border border-slate-500/70 bg-slate-700/80 px-2.5 py-1 text-xs font-medium text-slate-100 no-underline transition hover:bg-slate-600/85 hover:text-white"
+      class="absolute right-4 top-3 z-10 flex items-center gap-1.5 rounded-md border border-slate-500/70 bg-slate-700/80 px-2.5 py-1 text-xs font-medium text-slate-100 no-underline transition hover:bg-slate-600/85 hover:text-white"
     >
+      <i class="pi pi-github" />
       Open on GitHub
     </a>
     <pre :class="[props.class, githubSourceUrl ? 'mt-7' : '']">
