@@ -79,7 +79,7 @@ const isAccordionGroup = (groupName: string) => {
                 >
                   <button
                     @click="toggleGroup(item.label)"
-                    class="flex w-full items-center justify-between px-4 py-3 text-left font-bold text-stone-800 hover:bg-stone-200/80 hover:text-stone-900"
+                    class="flex w-full items-center justify-between px-3 py-2 text-left text-sm font-bold text-stone-800 hover:bg-stone-200/80 hover:text-stone-900"
                   >
                     <span>{{ item.label }}</span>
                     <span
@@ -96,11 +96,11 @@ const isAccordionGroup = (groupName: string) => {
                         v-for="(subItem, subIndex) in item.items"
                         :key="subIndex"
                         v-ripple
-                        class="sidebar-link flex items-center gap-2 pl-4 pr-2 py-2 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
+                        class="sidebar-link flex items-center gap-1.5 pl-3 pr-2 py-1.5 text-sm text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
                         :to="subItem.url"
                         @click="isOpen = false"
                       >
-                        <span :class="`pi ${subItem.icon}`" />
+                        <span :class="`pi ${subItem.icon} text-xs`" />
                         <span>{{ subItem.label }}</span>
                       </NuxtLink>
                     </div>
@@ -109,7 +109,7 @@ const isAccordionGroup = (groupName: string) => {
 
                 <!-- 일반 그룹 (아코디언 없음) -->
                 <div v-else class="border-b border-stone-200">
-                  <div class="px-4 py-3 font-bold text-stone-800">
+                  <div class="px-3 py-2 text-sm font-bold text-stone-800">
                     {{ item.label }}
                   </div>
                   <div>
@@ -117,11 +117,11 @@ const isAccordionGroup = (groupName: string) => {
                       v-for="(subItem, subIndex) in item.items"
                       :key="subIndex"
                       v-ripple
-                      class="sidebar-link flex items-center gap-2 pl-4 pr-2 py-2 text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
+                      class="sidebar-link flex items-center gap-1.5 pl-3 pr-2 py-1.5 text-sm text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
                       :to="subItem.url"
                       @click="isOpen = false"
                     >
-                      <span :class="`pi ${subItem.icon}`" />
+                      <span :class="`pi ${subItem.icon} text-xs`" />
                       <span>{{ subItem.label }}</span>
                     </NuxtLink>
                   </div>

@@ -43,10 +43,10 @@ definePageMeta({
 <template>
   <main class="mx-auto flex max-w-[1140px] relative">
     <DesktopSideDocs
-      class="sticky -sm:hidden top-4 self-start w-[250px] min-h-0 max-h-[calc(100vh-60px-92px)]"
+      class="sticky -sm:hidden top-0 flex-shrink-0 self-start w-[280px] min-h-0 max-h-[calc(100vh-60px-92px)] mr-0"
     />
 
-    <div class="max-w-[800px] min-h-[calc(100vh-60px-92px)] flex-1">
+    <div class="max-w-[800px] min-h-[calc(100vh-60px-92px)] flex-1 border-l border-stone-200 pl-6">
       <div v-if="pageData" class="p-6 docs-content">
         <ContentRenderer :value="pageData" />
       </div>

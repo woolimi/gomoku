@@ -1,8 +1,13 @@
 import type { DocLink, DocFolder, DocItem } from "~/types/docs";
 
 // 아코디언으로 표시할 그룹 목록 (데스크톱/모바일 공유)
-export const ACCORDION_GROUPS = new Set(["alphazero", "minimax"]);
-const GROUP_PRIORITY = ["minimax", "alphazero"];
+export const ACCORDION_GROUPS = new Set([
+  "about gomoku",
+  "about project",
+  "alphazero",
+  "minimax",
+]);
+const GROUP_PRIORITY = ["about gomoku", "about project", "minimax", "alphazero"];
 
 export const useDocsStore = defineStore("docs", () => {
   const docLinks = ref<DocLink[]>([]);

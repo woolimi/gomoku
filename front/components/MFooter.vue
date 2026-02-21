@@ -7,43 +7,48 @@ const props = defineProps({
 });
 </script>
 <template>
-  <footer class="bg-black px-8 text-sm text-white">
-    <ul
-      class="mx-auto grid max-w-[800px] grid-cols-2 gap-x-2 gap-y-0 p-4"
-      :class="{
-        ['border-t-[1px] border-white']: props.nonGamePage,
-      }"
+  <footer
+    class="bg-stone-950 px-6 py-6 text-white"
+    :class="{ 'border-t border-stone-700': props.nonGamePage }"
+  >
+    <div
+      class="mx-auto flex max-w-[800px] flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"
     >
-      <li class="w-full text-right font-extrabold">AI & Backend by</li>
-      <li class="flex flex-col">
+      <section class="flex flex-col gap-1">
+        <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">
+          AI & Backend
+        </span>
         <a
-          class="text-bold text-gray-400 underline transition-colors duration-200 hover:text-white"
           href="https://sungyongcho.com"
           target="_blank"
+          rel="noopener"
+          class="w-fit text-stone-300 underline underline-offset-2 transition-colors hover:text-white"
         >
           Sungyong Cho
         </a>
-      </li>
-      <li class="flex w-full items-center justify-end">
-        <i class="pi pi-envelope"></i>
-      </li>
-      <li>
         <a
           href="mailto:here@sungyongcho.com"
-          class="inline-block -translate-y-[2px] text-gray-400 underline transition-colors duration-200 hover:text-white"
           target="_blank"
-          >here@sungyongcho.com</a
+          rel="noopener"
+          class="mt-1 flex w-fit items-center gap-1.5 text-sm text-stone-400 underline-offset-2 transition-colors hover:text-stone-200"
         >
-      </li>
-      <li class="w-full text-right font-extrabold">Frontend by</li>
-      <li>
+          <i class="pi pi-envelope text-[0.7rem] pt-1" aria-hidden="true" />
+          <span class="underline">here@sungyongcho.com</span>
+        </a>
+      </section>
+      <section class="flex flex-col gap-1">
+        <span class="text-xs font-semibold uppercase tracking-wider text-stone-500">
+          Frontend
+        </span>
         <a
-          class="text-bold text-gray-400 underline transition-colors duration-200 hover:text-white"
           href="https://woolimi.github.io"
           target="_blank"
-          >Woolim Park</a
+          rel="noopener"
+          class="w-fit text-stone-300 underline underline-offset-2 transition-colors hover:text-white"
         >
-      </li>
-    </ul>
+          Woolim Park
+        </a>
+      </section>
+    </div>
   </footer>
 </template>

@@ -9,3 +9,27 @@ body {
   font-weight: 400;
   font-family: "Noto Sans", sans-serif;
 }
+
+/* 전역 스크롤바: 얇게 */
+* {
+  scrollbar-width: 6px;
+  scrollbar-color: black transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(163 163 163);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(115 115 115);
+}
