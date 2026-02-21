@@ -49,8 +49,10 @@ function getBackendWsUrls(): string[] {
     const minimaxPort = config.LOCAL_MINIMAX as string | number | undefined;
     const alphazeroPort = config.LOCAL_ALPHAZERO as string | number | undefined;
     const urls: string[] = [];
-    if (minimaxPort != null) urls.push(`ws://localhost:${minimaxPort}/ws`);
-    if (alphazeroPort != null) urls.push(`ws://localhost:${alphazeroPort}/ws`);
+    const validPort = (p: string | number | undefined) =>
+      p != null && String(p).trim() !== "" && !Number.isNaN(Number(p));
+    if (validPort(minimaxPort)) urls.push(`ws://localhost:${minimaxPort}/ws`);
+    if (validPort(alphazeroPort)) urls.push(`ws://localhost:${alphazeroPort}/ws`);
     return urls;
   }
   return [

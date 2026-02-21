@@ -1,12 +1,17 @@
+<!--
+  Wrapper MUST be inline (e.g. span). Markdown puts ProseImg inside <p>; block elements
+  like <figure> inside <p> are invalid HTML and cause server/client DOM mismatch → hydration error.
+  See: https://github.com/nuxt-modules/mdc/issues/212, nuxt/content#1537
+-->
 <template>
-  <figure
-    class="docs-prose-img mx-auto my-3 flex w-full cursor-zoom-in flex-col justify-center"
+  <span
+    class="docs-prose-img block mx-auto my-3 flex w-full cursor-zoom-in flex-col justify-center"
     role="button"
     tabindex="0"
     aria-label="이미지 확대"
-    @click="open = true"
-    @keydown.enter="open = true"
-    @keydown.space.prevent="open = true"
+    @click="imageDialog.open(refinedSrc, props.alt)"
+    @keydown.enter="imageDialog.open(refinedSrc, props.alt)"
+    @keydown.space.prevent="imageDialog.open(refinedSrc, props.alt)"
   >
     <component
       :is="ImageComponent"
@@ -17,33 +22,10 @@
       class="object-cover"
       v-bind="$attrs"
     />
-    <figcaption v-if="hasCaption" class="text-center text-sm text-gray-800">
+    <span v-if="hasCaption" class="text-center text-sm text-gray-800">
       - {{ props.alt }} -
-    </figcaption>
-  </figure>
-
-  <ClientOnly>
-    <Dialog
-      v-model:visible="open"
-      modal
-      dismissable-mask
-      close-on-escape
-      class="docs-image-dialog w-[90vw] max-w-4xl overflow-hidden !p-0 [&_.p-dialog-content]:!overflow-hidden [&_.p-dialog-content]:!p-0"
-      @hide="open = false"
-    >
-      <div
-        class="flex max-h-[85vh] items-center justify-center p-4"
-        @click.stop
-      >
-        <img
-          :src="refinedSrc"
-          :alt="props.alt"
-          class="max-h-[80vh] w-auto max-w-full object-contain"
-          loading="lazy"
-        />
-      </div>
-    </Dialog>
-  </ClientOnly>
+    </span>
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -89,11 +71,10 @@ const refinedSrc = computed(() => {
 
 const hasCaption = computed(() => props.alt.trim().length > 0);
 
-const open = ref(false);
+const imageDialog = useDocsImageDialog();
 </script>
 
 <style scoped>
-/* (다이얼로그/마스크는 body로 텔레포트되므로 아래 스타일은 전역) */
 </style>
 <style>
 /* 이미지 확대 다이얼로그: 백드롭 더 어둡게 (마스크가 다이얼로그 바로 앞에 올 때) */

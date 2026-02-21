@@ -18,5 +18,8 @@ useHead({
       <slot />
     </div>
     <MFooter class="w-full shrink-0" />
+    <ClientOnly>
+      <DocsImageDialog />
+    </ClientOnly>
   </div>
 </template>
