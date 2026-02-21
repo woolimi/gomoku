@@ -1,16 +1,40 @@
 <script setup lang="ts">
 import type { DocLink, DocFolder, DocItem } from "~/types/docs";
 import { ACCORDION_GROUPS } from "~/stores/docs.store";
+import { useRuntimeConfig } from "#imports";
 
 const docsStore = useDocsStore();
 const { docLinks, pathToGroupMap, openGroups } = storeToRefs(docsStore);
 const { isGroupOpen, toggleGroup, addOpenGroup } = docsStore;
 const route = useRoute();
+const config = useRuntimeConfig();
+
+/** pathToGroupMap keys are content paths (no baseURL, no trailing slash). Normalize route.path to match. */
+function normalizedPathForLookup(path: string): string {
+  const base = (config.app?.baseURL || "/").replace(/\/$/, "") || "";
+  const withoutBase = base ? path.replace(new RegExp(`^${base}`), "") : path;
+  return withoutBase.replace(/\/$/, "") || "/";
+}
+
+/** Open groups for render = store openGroups + current route's group. Ensures SSR/client same HTML (no watch timing). */
+const effectiveOpenGroups = computed(() => {
+  const set = new Set(openGroups.value.map((g) => g.toLowerCase()));
+  const pathKey = normalizedPathForLookup(route.path);
+  const groupName = pathToGroupMap.value[pathKey]?.toLowerCase();
+  if (groupName && ACCORDION_GROUPS.has(groupName)) {
+    set.add(groupName);
+  }
+  return set;
+});
+
+const isGroupOpenForRender = (groupName: string): boolean =>
+  effectiveOpenGroups.value.has(groupName.toLowerCase());
 
 watch(
   () => route.path,
   (path) => {
-    const groupName = pathToGroupMap.value[path]?.toLowerCase();
+    const pathKey = normalizedPathForLookup(path);
+    const groupName = pathToGroupMap.value[pathKey]?.toLowerCase();
     if (groupName && ACCORDION_GROUPS.has(groupName)) {
       addOpenGroup(groupName);
     }
@@ -52,13 +76,13 @@ const isAccordionGroup = (groupName: string) => {
               <span>{{ item.label }}</span>
               <span
                 :class="`pi transition-transform ${
-                  isGroupOpen(item.label) ? 'pi-chevron-up' : 'pi-chevron-down'
+                  isGroupOpenForRender(item.label) ? 'pi-chevron-up' : 'pi-chevron-down'
                 }`"
               />
             </button>
             <Transition name="slide-down">
               <div
-                v-if="isGroupOpen(item.label)"
+                v-if="isGroupOpenForRender(item.label)"
               >
                 <NuxtLink
                   v-for="(subItem, subIndex) in item.items"
