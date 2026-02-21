@@ -24,7 +24,7 @@ watch(
 watch(
   () => route.path,
   (path) => {
-    const groupName = pathToGroupMap.value.get(path)?.toLowerCase();
+    const groupName = pathToGroupMap.value[path]?.toLowerCase();
     if (groupName && ACCORDION_GROUPS.has(groupName)) {
       addOpenGroup(groupName);
     }

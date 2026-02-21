@@ -11,7 +11,8 @@ const GROUP_PRIORITY = ["about gomoku", "about project", "minimax", "alphazero"]
 
 export const useDocsStore = defineStore("docs", () => {
   const docLinks = ref<DocLink[]>([]);
-  const pathToGroupMap = ref<Map<string, string>>(new Map());
+  /** 경로 → 그룹명 (Pinia 직렬화를 위해 plain object 사용) */
+  const pathToGroupMap = ref<Record<string, string>>({});
   /** 아코디언에서 열린 그룹 (정규화된 이름). 데스크톱/모바일 공유 */
   const openGroups = ref<string[]>([]);
 
@@ -41,13 +42,13 @@ export const useDocsStore = defineStore("docs", () => {
 
     // group 필드로 그룹화
     const groupMap = new Map<string, Array<DocItem & { _id?: string }>>();
-    const pathMap = new Map<string, string>();
+    const pathMap: Record<string, string> = {};
 
     for (const doc of docs) {
       const group = doc.group || "Other";
 
-      // 경로 -> 그룹 매핑 저장
-      pathMap.set(doc.path, group);
+      // 경로 -> 그룹 매핑 저장 (plain object로 Pinia SSR 직렬화 가능)
+      pathMap[doc.path] = group;
 
       if (!groupMap.has(group)) {
         groupMap.set(group, []);

@@ -46,8 +46,8 @@ definePageMeta({
       class="sticky -sm:hidden top-0 flex-shrink-0 self-start w-[280px] min-h-0 max-h-[calc(100vh-60px-92px)] mr-0"
     />
 
-    <div class="max-w-[800px] min-h-[calc(100vh-60px-92px)] flex-1 border-l border-stone-200 pl-6">
-      <div v-if="pageData" class="p-6 docs-content">
+    <div class="min-h-[calc(100vh-60px-92px)] min-w-0 flex-1 border-l border-stone-200 sm:pl-6">
+      <div v-if="pageData" class="min-w-0 p-6 docs-content">
         <ContentRenderer :value="pageData" />
       </div>
       <DocNotFound v-else />

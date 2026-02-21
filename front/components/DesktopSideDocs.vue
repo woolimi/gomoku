@@ -10,7 +10,7 @@ const route = useRoute();
 watch(
   () => route.path,
   (path) => {
-    const groupName = pathToGroupMap.value.get(path)?.toLowerCase();
+    const groupName = pathToGroupMap.value[path]?.toLowerCase();
     if (groupName && ACCORDION_GROUPS.has(groupName)) {
       addOpenGroup(groupName);
     }
@@ -29,7 +29,15 @@ const isAccordionGroup = (groupName: string) => {
 
 <template>
   <aside class="overflow-y-auto pb-10">
-    <div class="flex flex-col">
+    <div class="docs-sidebar-title sticky top-0 z-10 flex items-center gap-2.5 border-b border-stone-200 px-4 py-3.5 bg-white">
+      <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" aria-hidden="true">
+        <i class="pi pi-book text-sm" />
+      </span>
+      <span class="text-[15px] font-bold tracking-tight">
+        Documentation
+      </span>
+    </div>
+    <div class="flex flex-col pt-2">
       <template v-for="(item, index) in docLinks" :key="index">
         <template v-if="isFolder(item)">
           <!-- 아코디언 그룹 (Alphazero, Minimax) -->
@@ -55,8 +63,7 @@ const isAccordionGroup = (groupName: string) => {
                 <NuxtLink
                   v-for="(subItem, subIndex) in item.items"
                   :key="subIndex"
-                  v-ripple
-                  class="sidebar-link flex items-start gap-1.5 px-3 py-1.5 text-sm text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
+                  class="sidebar-link flex items-start gap-1.5 px-3 py-1.5 text-sm text-stone-600 hover:bg-stone-200/70 hover:text-stone-900 active:bg-stone-200/80"
                   :to="subItem.url"
                 >
                   <span :class="`pi ${subItem.icon} text-xs pt-[5px]`" />
@@ -75,8 +82,7 @@ const isAccordionGroup = (groupName: string) => {
               <NuxtLink
                 v-for="(subItem, subIndex) in item.items"
                 :key="subIndex"
-                v-ripple
-                class="sidebar-link flex items-start gap-1.5 pl-3 pr-2 py-1.5 text-sm text-stone-600 hover:bg-stone-200/70 hover:text-stone-900"
+                class="sidebar-link flex items-start gap-1.5 pl-3 pr-2 py-1.5 text-sm text-stone-600 hover:bg-stone-200/70 hover:text-stone-900 active:bg-stone-200/80"
                 :to="subItem.url"
               >
                 <span :class="`pi ${subItem.icon} text-xs pt-1`" />
