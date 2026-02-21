@@ -51,6 +51,8 @@ export const useGameStore = defineStore("game", () => {
     isPerfectFiveEnded,
   } = useGameLogic();
   const showSettings = ref(false);
+  const showAiSelectModal = ref(false);
+  const showAiSelectOnNextGameView = ref(false);
 
   const settings = useStorage<Settings>(
     GOMOKU_SETTINGS_KEY,
@@ -541,5 +543,7 @@ export const useGameStore = defineStore("game", () => {
     initialBoard,
     getPlayerTotalCaptured,
     showSettings,
+    showAiSelectModal,
+    showAiSelectOnNextGameView,
   };
 });

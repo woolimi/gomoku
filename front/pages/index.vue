@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { NuxtLink } from "#components";
 
-const { settings } = storeToRefs(useGameStore());
+const { settings, showAiSelectOnNextGameView } = storeToRefs(useGameStore());
 const { initGame } = useGameStore();
 const $router = useRouter();
 const onGameWithAI = () => {
   settings.value.isPlayer2AI = true;
+  showAiSelectOnNextGameView.value = true;
   initGame();
   $router.push("/game/");
 };

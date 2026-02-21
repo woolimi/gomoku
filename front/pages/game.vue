@@ -23,6 +23,8 @@ const {
   isAiThinking,
   historyMode,
   gameOver,
+  showAiSelectModal,
+  showAiSelectOnNextGameView,
 } = storeToRefs(useGameStore());
 const {
   deleteLastTurn,
@@ -192,6 +194,9 @@ const onRestart = () => {
   if (settings.value.isPlayer2AI && settings.value.firstMove === "Player2") {
     onSendStone();
   }
+  if (settings.value.isPlayer2AI) {
+    showAiSelectModal.value = true;
+  }
 };
 
 const purgeState = () => {
@@ -242,6 +247,13 @@ watch(data, (rawData) => {
     });
   } finally {
     purgeState();
+  }
+});
+
+onMounted(() => {
+  if (showAiSelectOnNextGameView.value && settings.value.isPlayer2AI) {
+    showAiSelectModal.value = true;
+    showAiSelectOnNextGameView.value = false;
   }
 });
 
