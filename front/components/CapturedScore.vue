@@ -14,34 +14,18 @@ const { settings } = storeToRefs(useGameStore());
 </script>
 <template>
   <section
-    class="flex items-center justify-between gap-10 rounded-md border-2 p-2"
+    class="flex items-center justify-between gap-6 rounded-md border border-zinc-200 bg-zinc-50/80 px-2 py-1.5"
   >
-    <div class="flex flex-col items-center justify-center">
-      <div
-        class="flex h-[52px] w-[52px] items-end rounded-lg bg-black p-2 text-white"
-      >
-        <span class="mr-1 text-3xl -sm:text-xl">{{
-          player1TotalCaptured
-        }}</span>
-        <small class="text-sm text-gray-300">
-          /{{ settings.totalPairCaptured }}
-        </small>
-      </div>
+    <div class="flex items-baseline justify-center gap-0.5">
+      <span class="text-2xl font-medium text-zinc-800">{{ player1TotalCaptured }}</span>
+      <span class="text-sm text-zinc-500">/{{ settings.totalPairCaptured }}</span>
     </div>
 
-    <span class="text-body text-center">Pair captured</span>
+    <span class="text-xs font-medium uppercase tracking-wide text-zinc-500">Pair captured</span>
 
-    <div class="flex flex-col items-center justify-center">
-      <div
-        class="flex h-[52px] w-[52px] items-end rounded-lg bg-black p-2 text-white"
-      >
-        <span class="mr-1 text-3xl -sm:text-xl">{{
-          player2TotalCaptured
-        }}</span>
-        <small class="text-sm text-gray-300">
-          /{{ settings.totalPairCaptured }}
-        </small>
-      </div>
+    <div class="flex items-baseline justify-center gap-0.5">
+      <span class="text-2xl font-medium text-zinc-800">{{ player2TotalCaptured }}</span>
+      <span class="text-sm text-zinc-500">/{{ settings.totalPairCaptured }}</span>
     </div>
   </section>
 </template>
