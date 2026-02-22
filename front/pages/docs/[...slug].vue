@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { DocLink, DocItem } from "~/types/docs";
+
 const route = useRoute();
+const { docLinks } = storeToRefs(useDocsStore());
 
 // Helper to find doc with case-insensitive path matching
 const findDocByPath = async (path: string) => {
@@ -20,15 +23,30 @@ const { data: pageData } = await useAsyncData(route.path, () =>
   findDocByPath(route.path),
 );
 
-const { data: surroundData } = await useAsyncData(
-  `${route.path}-surrounded`,
-  async () => {
-    // Use the actual doc path for surroundings if we found a case-insensitive match
-    const doc = await findDocByPath(route.path);
-    const actualPath = doc?.path || route.path;
-    return queryCollectionItemSurroundings("docs", actualPath);
-  },
-);
+/** docLinks 순서(About Gomoku → About Project → Minimax → AlphaZero)로 이전/다음 계산 */
+function flattenDocLinks(links: DocLink[]): DocItem[] {
+  const out: DocItem[] = [];
+  for (const link of links) {
+    if ("items" in link) out.push(...link.items);
+    else out.push(link);
+  }
+  return out;
+}
+
+function normalizePathForCompare(p: string): string {
+  return p.replace(/\/$/, "").toLowerCase();
+}
+
+const navSurround = computed(() => {
+  const flat = flattenDocLinks(docLinks.value);
+  const current = normalizePathForCompare(route.path);
+  const idx = flat.findIndex((item) => normalizePathForCompare(item.url) === current);
+  if (idx === -1) return { prev: null as { path: string; title: string } | null, next: null as { path: string; title: string } | null };
+  return {
+    prev: idx > 0 ? { path: flat[idx - 1].url, title: flat[idx - 1].label } : null,
+    next: idx < flat.length - 1 ? { path: flat[idx + 1].url, title: flat[idx + 1].label } : null,
+  };
+});
 
 useSeoMeta({
   title: pageData.value?.title,
@@ -53,8 +71,8 @@ definePageMeta({
       <DocNotFound v-else />
       
       <DocNavButtons
-        :prev="surroundData?.[0]"
-        :next="surroundData?.[1]"
+        :prev="navSurround.prev"
+        :next="navSurround.next"
       />
     </div>
   </main>

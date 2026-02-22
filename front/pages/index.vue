@@ -57,7 +57,7 @@ const onGameWithHuman = () => {
           to="/docs/about-gomoku/intro"
         >
           <i class="pi pi-question-circle"></i>
-          Help
+          Documentation
         </Button>
 
         <Button

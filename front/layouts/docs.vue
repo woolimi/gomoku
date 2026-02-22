@@ -10,13 +10,13 @@ useHead({
 </script>
 
 <template>
-  <div class="flex h-screen flex-col">
+  <div class="flex min-h-screen flex-col">
     <header class="fixed top-0 left-0 right-0 z-[11]">
       <MHeader doc-page class="w-full" />
     </header>
-    <div class="flex-1 min-h-0 overflow-auto pt-[60px]">
+    <main class="flex-1 pt-[60px]">
       <slot />
-    </div>
+    </main>
     <MFooter class="w-full shrink-0" />
     <ClientOnly>
       <DocsImageDialog />

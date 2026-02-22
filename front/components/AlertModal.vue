@@ -16,6 +16,7 @@ const _visible = computed({
   <Dialog
     v-model:visible="_visible"
     modal
+    :draggable="false"
     dismissableMask
     :header="alert?.header"
     closeOnEscape
