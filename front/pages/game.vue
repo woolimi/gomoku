@@ -9,6 +9,7 @@ import type {
 
 definePageMeta({
   layout: "game",
+  middleware: "game-health",
 });
 
 const {
@@ -64,19 +65,23 @@ const canUndoTurn = computed(() => {
   return true;
 });
 const { doAlert, closeAlert } = useAlertStore();
-const maintenance = useMaintenanceStore();
+const { showMaintenance } = storeToRefs(useMaintenanceStore());
 const { getSocketUrl } = useEnv();
 
 const socketUrl = computed(() => getSocketUrl());
 
+const reconnectRequestedByUser = ref(false);
+
 const showReconnectAlert = (message?: string) => {
+  if (showMaintenance.value) return;
   doAlert({
     header: "Error",
-    message: message || "WebSocket connection failed. Reconnecting...",
+    message: message || "WebSocket connection failed.",
     type: "Warn",
     actionIcon: "pi pi-undo",
     actionLabel: "Reconnect now",
     action: () => {
+      reconnectRequestedByUser.value = true;
       open();
       closeAlert();
     },
@@ -115,8 +120,9 @@ watch(
 
 watch(
   status,
-  (s) => {
+  (s, prev) => {
     if (s === "OPEN") {
+      reconnectRequestedByUser.value = false;
       closeAlert();
       requestAiFirstMoveIfNeeded();
       return;
@@ -124,6 +130,10 @@ watch(
 
     if (s === "CLOSED") {
       isAiThinking.value = false;
+      if (prev === "CONNECTING" && reconnectRequestedByUser.value) {
+        reconnectRequestedByUser.value = false;
+        showReconnectAlert();
+      }
       scheduleReconnect();
     }
   },
@@ -227,7 +237,6 @@ const purgeState = () => {
 
 watch(data, (rawData) => {
   if (!data.value) return;
-  maintenance.reportBackendSuccess();
 
   try {
     const res: SocketMoveResponse =

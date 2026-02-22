@@ -33,17 +33,19 @@ const {
 
 const lastHistory = computed(() => histories.value.at(-1));
 const { doAlert, closeAlert } = useAlertStore();
-const maintenance = useMaintenanceStore();
 const { getDebugSocketUrl } = useEnv();
+
+const reconnectRequestedByUser = ref(false);
 
 const showReconnectAlert = (message?: string) => {
   doAlert({
     header: "Error",
-    message: message || "WebSocket connection failed. Reconnecting...",
+    message: message || "WebSocket connection failed.",
     type: "Warn",
     actionIcon: "pi pi-undo",
-    actionLabel: "Reconnect now",
+    actionLabel: "Try reconnect",
     action: () => {
+      reconnectRequestedByUser.value = true;
       open();
       closeAlert();
     },
@@ -68,14 +70,19 @@ const { ensureOpen, startRequestTimeout, clearRequestTimeout, scheduleReconnect 
 
 watch(
   status,
-  (s) => {
+  (s, prev) => {
     if (s === "OPEN") {
+      reconnectRequestedByUser.value = false;
       closeAlert();
       return;
     }
 
     if (s === "CLOSED") {
       isAiThinking.value = false;
+      if (prev === "CONNECTING" && reconnectRequestedByUser.value) {
+        reconnectRequestedByUser.value = false;
+        showReconnectAlert();
+      }
       scheduleReconnect();
     }
   },
@@ -168,8 +175,6 @@ const purgeState = () => {
 
 watch(data, (rawData) => {
   if (!data.value) return;
-  maintenance.reportBackendSuccess();
-
   try {
     const res: SocketMoveResponse =
       typeof rawData === "string" ? JSON.parse(rawData) : rawData;

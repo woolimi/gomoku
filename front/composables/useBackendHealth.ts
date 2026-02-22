@@ -91,7 +91,7 @@ function getBackendWsUrls(ai?: BackendAi): string[] {
 export function useBackendHealth() {
   const check = async (ai?: BackendAi): Promise<boolean> => {
     const urls = getBackendWsUrls(ai);
-    if (urls.length === 0) return true;
+    if (urls.length === 0) return false;
     const results = await Promise.all(urls.map((url) => checkWsReachable(url)));
     return results.every(Boolean);
   };

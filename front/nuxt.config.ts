@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { definePreset } from "@primevue/themes";
 import Aura from "@primevue/themes/aura";
+
+const rootDir = fileURLToPath(new URL(".", import.meta.url));
 
 const port = process.env.LOCAL_FRONT ? parseInt(process.env.LOCAL_FRONT) : 3000;
 const LOCAL_FRONT_NUXT_CONTENT_WS = parseInt(process.env.LOCAL_FRONT_NUXT_CONTENT_WS || '4000');
