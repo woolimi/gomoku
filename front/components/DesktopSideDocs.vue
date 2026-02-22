@@ -16,16 +16,11 @@ function normalizedPathForLookup(path: string): string {
   return withoutBase.replace(/\/$/, "") || "/";
 }
 
-/** Open groups for render = store openGroups + current route's group. Ensures SSR/client same HTML (no watch timing). */
-const effectiveOpenGroups = computed(() => {
-  const set = new Set(openGroups.value.map((g) => g.toLowerCase()));
-  const pathKey = normalizedPathForLookup(route.path);
-  const groupName = pathToGroupMap.value[pathKey]?.toLowerCase();
-  if (groupName && ACCORDION_GROUPS.has(groupName)) {
-    set.add(groupName);
-  }
-  return set;
-});
+// openGroups만 사용. 현재 경로 그룹은 watch에서 addOpenGroup으로 이미 열리므로,
+// 여기서 강제로 넣지 않아야 사용자가 아코디언을 닫을 수 있음.
+const effectiveOpenGroups = computed(() =>
+  new Set(openGroups.value.map((g) => g.toLowerCase())),
+);
 
 const isGroupOpenForRender = (groupName: string): boolean =>
   effectiveOpenGroups.value.has(groupName.toLowerCase());
@@ -52,8 +47,8 @@ const isAccordionGroup = (groupName: string) => {
 </script>
 
 <template>
-  <aside class="overflow-y-auto pb-10">
-    <div class="docs-sidebar-title sticky top-0 z-10 flex items-center gap-2.5 border-b border-stone-200 px-4 py-3.5 bg-white">
+  <aside class="pb-10">
+    <div class="sticky top-0 z-10 flex items-center gap-2.5 border-b border-stone-200 px-4 py-3.5 bg-white">
       <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" aria-hidden="true">
         <i class="pi pi-book text-sm" />
       </span>
@@ -61,7 +56,8 @@ const isAccordionGroup = (groupName: string) => {
         Documentation
       </span>
     </div>
-    <div class="flex flex-col pt-2">
+    <div class="flex flex-col pt-2 overflow-y-auto h-[calc(100vh-60px-61px)]">
+      <div class="pb-10">
       <template v-for="(item, index) in docLinks" :key="index">
         <template v-if="isFolder(item)">
           <!-- 아코디언 그룹 (Alphazero, Minimax) -->
@@ -114,8 +110,9 @@ const isAccordionGroup = (groupName: string) => {
               </NuxtLink>
             </div>
           </div>
+          </template>
         </template>
-      </template>
+      </div>
     </div>
   </aside>
 </template>
