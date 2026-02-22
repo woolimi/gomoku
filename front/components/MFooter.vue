@@ -8,7 +8,7 @@ const props = defineProps({
 </script>
 <template>
   <footer
-    class="flex items-center bg-stone-950 px-4 py-4 text-white sm:px-6"
+    class="flex items-center bg-stone-950 px-4 py-4 text-white sm:px-6 z-10"
     :class="{ 'border-t border-stone-700': props.nonGamePage }"
   >
     <div
