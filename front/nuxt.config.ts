@@ -142,6 +142,9 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
+    // redirect bare /docs to the intro page
+    "/docs": { redirect: "/gomoku/docs/about-gomoku/intro" },
+    "/docs/": { redirect: "/gomoku/docs/about-gomoku/intro" },
     // docs: SSR (on-demand), do not prerender
     "/docs/**": { prerender: false },
     // everything else: SSG (prerender at build)
